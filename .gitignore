@@ -1,0 +1,24 @@
+*~
+gh-pages
+
+docs/git2dot-api
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+local/
+dist/
+downloads/
+tmp/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+.tox/
+.coverage
+py_dist/

@@ -1,0 +1,33 @@
+# --------
+# requires
+# --------
+
+six
+graphviz
+gitpython
+fspath
+# -e /share/fspath
+
+# --------------
+# tests_requires
+# --------------
+
+pip
+tox
+pytest
+pytest-cov
+pylint
+
+# -------
+# develop
+# -------
+
+Sphinx
+sphinx_rtd_theme
+twine
+wheel
+mock
+
+# sphinxjp.themes.revealjs: slide-shows with revaljs
+# git+https://github.com/return42/sphinxjp.themes.revealjs@master#egg=sphinxjp.themes.revealjs
+#-e file:/share/revealjs
