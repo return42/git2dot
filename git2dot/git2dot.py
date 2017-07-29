@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# pylint: disable=bad-continuation,superfluous-parens
+# pylint: disable=bad-continuation,invalid-name
 
 import cgi
 import time

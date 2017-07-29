@@ -1,5 +1,7 @@
 # -*- coding: utf-8; mode: python -*-
 
+# pylint: disable=bad-continuation,invalid-name
+
 class Container(dict):
     @property
     def __dict__(self):
