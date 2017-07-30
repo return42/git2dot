@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""git2dot library"""
 
 # pylint: disable=bad-continuation,invalid-name
 
 import cgi
 import time
 import git
-from fspath import FSPath
 from graphviz import Digraph
 
-
 class GitFormatter(object):
+    """Formating git/graphviz nodes & edges"""
 
     SHA_SHORT_LENGTH  = 6
     DATE_TIME_FORMAT  = '%Y-%m-%d %H:%M:%S'
@@ -41,6 +41,7 @@ class GitFormatter(object):
 
     @property
     def type(self):
+        """type of *this* node (branch, head, commit, ..)"""
         retVal = None
         if isinstance(self.git_item, git.refs.reference.Reference):
             retVal = 'ref'
@@ -53,18 +54,22 @@ class GitFormatter(object):
         return retVal
 
     def dumpNode(self, graph):
+        """generate DOT node"""
         graph.node(self.getID(), self.getLabel(), self.getAttrs())
 
     def getID(self):
+        """get ID of *this* DOT node"""
+        retVal = self.git_item.hexsha
         if self.type in ('ref','head', 'branch'):
-            return self.git_item.path
-        else:
-            return self.git_item.hexsha
+            retVal = self.git_item.path
+        return retVal
 
     def getLabel(self):
+        """get label of *this* DOT node"""
         return self.LABELS[self.type] % self
 
     def getAttrs(self):
+        """get DOT attributes of *this* node"""
         retVal = dict()
         attrs = self.NODE_ATTRS[self.type]
         for k,v in attrs.items():
@@ -111,7 +116,11 @@ class GitFormatter(object):
 
 
 class GitDigraph(Digraph):
+    """Directed graph source code in the DOT language.
 
+    Eats git objs (self.addGitObj), git refs (self.addGitRef) and
+    inserts edges (addGitEdge).
+    """
     def __init__(self, *args, **kwargs):
         super(GitDigraph, self).__init__(*args, **kwargs)
 
@@ -121,6 +130,7 @@ class GitDigraph(Digraph):
         self.ref_rank   = set()
 
         # ToDo: facilitate for customizing
+        from .config import buildStyles
         self.fmtClass   = GitFormatter
         self.styleFunc  = buildStyles
 
@@ -179,7 +189,7 @@ class GitDigraph(Digraph):
         self.dumpGraph()
         return super(GitDigraph, self).save(*args, **kwargs)
 
-    def pipe(self, *args, **kwargs):
+    def pipe(self, *args, **kwargs): # pylint: disable=arguments-differ
         self.dumpGraph()
         return super(GitDigraph, self).pipe(*args, **kwargs)
 

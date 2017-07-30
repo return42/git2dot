@@ -1,8 +1,11 @@
 # -*- coding: utf-8; mode: python -*-
-
 # pylint: disable=bad-continuation,invalid-name
 
+"""git2dot configuration
+"""
+
 class Container(dict):
+    """simple container"""
     @property
     def __dict__(self):
         return self
@@ -45,6 +48,7 @@ BASE_STYLE = Container(
 )
 
 def buildStyles(base_style=None):
+    """returns a :py:class:`Container` with style options"""
     if base_style is None:
         base_style = BASE_STYLE
     return  Container({
