@@ -183,6 +183,8 @@ class GitDigraph(Digraph):
         return super(GitDigraph, self).pipe(*args, **kwargs)
 
     def dumpGraph(self):
+        """dump all git nodes & edges
+        """
         styles = self.styleFunc()
         self.graph_attr.update(styles['graph'])
         self.node_attr.update(styles['node'])

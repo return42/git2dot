@@ -11,6 +11,7 @@ import git
 from .git2dot import GitDigraph
 
 def find_git_root(repo):
+    """find '.git' folder of folder 'repo'"""
     while repo.DIRNAME != repo:
         if (repo / ".git").ISDIR:
             break
