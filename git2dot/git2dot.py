@@ -4,7 +4,6 @@
 
 # pylint: disable=bad-continuation,invalid-name
 
-import cgi
 import time
 import git
 from graphviz import Digraph
@@ -39,6 +38,14 @@ class GitFormatter(object):
     def __dict__(self):
         return self
 
+    @classmethod
+    def escape(cls, s):
+        """Replace special characters "&", "<" and ">" to HTML-safe sequences."""
+        s = s.replace("&", "&amp;") # Must be done first!
+        s = s.replace("<", "&lt;")
+        s = s.replace(">", "&gt;")
+        return s
+
     @property
     def type(self):
         """type of *this* node (branch, head, commit, ..)"""
@@ -59,9 +66,10 @@ class GitFormatter(object):
 
     def getID(self):
         """get ID of *this* DOT node"""
-        retVal = self.git_item.hexsha
         if self.type in ('ref','head', 'branch'):
             retVal = self.git_item.path
+        else:
+            retVal = self.git_item.hexsha
         return retVal
 
     def getLabel(self):
@@ -93,26 +101,7 @@ class GitFormatter(object):
                 retVal = retVal[:self.SHA_SHORT_LENGTH]
             elif attr in ('message', ):
                 retVal = retVal.splitlines()[0]
-        return cgi.escape(retVal)
-
-
-    #     self.node_id        = git_obj.hexsha
-    #     self.node_shape     = self.node_shape[self.git_obj.type]
-    #     self.node_style     = self.node_style[self.git_obj.type]
-    #     self.node_fillcolor = self.node_fillcolor[self.git_obj.type]
-
-    # @property
-    # def node_label(self):
-    #     fmt = self.node_label_format[self.git_obj.type]
-    #     return fmt % self
-
-    # @property
-    # def node_attrs(self):
-    #     return dict(
-    #         shape       = self.node_shape
-    #         , style     = self.node_style
-    #         , fillcolor = self.node_fillcolor
-    #         )
+        return self.escape(retVal)
 
 
 class GitDigraph(Digraph):
@@ -185,7 +174,7 @@ class GitDigraph(Digraph):
         if self.git_edges.get((parent, child), None) is None:
             self.git_edges[(parent, child)] = kwargs
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs): # pylint: disable=arguments-differ
         self.dumpGraph()
         return super(GitDigraph, self).save(*args, **kwargs)
 

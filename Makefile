@@ -8,7 +8,7 @@ GIT_URL   = https://github.com/return42/git2dot.git
 PYOBJECTS = git2dot
 DOC = docs
 API_DOC = $(DOC)/git2dot-api
-# SLIDES    = docs/slides
+SLIDES    = docs/slides
 
 all: clean pylint pytest build docs
 
@@ -37,7 +37,7 @@ PHONY += uninstall
 uninstall: pyuninstall
 
 PHONY += docs
-docs:  sphinx-doc $(API_DOC)
+docs:  sphinx-doc slides $(API_DOC)
 	@$(PY_ENV_BIN)/pip install $(PIP_VERBOSE) -e .
 	$(call cmd,sphinx,html,docs,docs)
 
@@ -45,9 +45,9 @@ $(API_DOC): $(PY_ENV)
 	$(PY_ENV_BIN)/sphinx-apidoc --separate --maxdepth=1 -o $(API_DOC) git2dot
 	rm -f $(API_DOC)/modules.rst
 
-# PHONY += slides
-# slides:  sphinx-doc
-# 	$(call cmd,sphinx,html,$(SLIDES),$(SLIDES),slides)
+PHONY += slides
+slides:  sphinx-doc
+	$(call cmd,sphinx,html,$(SLIDES),$(SLIDES),slides)
 
 PHONY += clean
 clean: pyclean docs-clean
