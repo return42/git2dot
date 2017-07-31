@@ -30,8 +30,8 @@ BASE_STYLE = Container(
     , FONTCOLOR = '#333355'
 
     # http://graphviz.org/doc/info/colors.html#brewer
-    , BG_COLOR     = 'white'
-    , LINE_COLOR   = '#505050'
+    , BG_COLOR     = 'transparent'
+    , LINE_COLOR   = '#cc9900'
     , BORDER_COLOR = '#A0A0A0'
     , NODE_SHAPE   = 'box'
     , NODE_STYLE   = 'filled,rounded'
