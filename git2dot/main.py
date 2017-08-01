@@ -33,7 +33,7 @@ def _cli_giant(cli):
     """
     repo = find_git_root(cli.repo)
     if repo is None:
-        raise cli.error(42, '%s is not a git repository' % cli.repo)
+        raise cli.Error(42, '%s is not a git repository' % cli.repo)
 
     cli.OUT.write('using: %s\n' % repo)
     repo = git.Repo(repo)
