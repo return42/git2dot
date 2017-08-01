@@ -1,0 +1,140 @@
+/* -*- coding: utf-8; mode: css -*-
+ *
+ * This is a customization of th Read The Doc (RTD) theme.
+ *
+ */
+
+/* FIXME: https://github.com/rtfd/sphinx_rtd_theme/issues/419
+ */
+
+div[class^="highlight"] pre {
+    line-height: normal;
+}
+.rst-content .highlight > pre {
+    line-height: normal;
+}
+
+@media screen {
+
+    /* change some of RTDs base color
+     */
+
+    body {
+        color: #150303;
+        font-family: "Lucida Grande",Arial,Verdana,sans-serif;
+    }
+
+    h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
+        margin-top: 0;
+        font-weight: 700;
+        font-family: "Lucida Grande",Arial,Verdana,sans-serif;
+    }
+    
+    .wy-nav-content {
+        background-color: #fff;
+        background-image: url("../_static/background.png");
+        background-repeat: repeat-x;
+    }
+
+    .wy-side-nav-search { background-color: #182A36; }
+    .wy-nav-side { background-color: #182A36; }
+    .wy-menu-vertical { background-color: #182A36; }
+    .wy-menu-vertical a:hover { background-color: #1A2C38; }
+
+    wy-side-nav-search input[type="text"] {
+        border-radius: 5px;
+        padding: 6px 12px;
+        border-color: #e1e1ed;
+        background-color: cornsilk;
+    }
+    
+    /* remove border from API prototypes */
+    .rst-content dl:not(.docutils) dt {border: none; }
+    .rst-content dl:not(.docutils) dl dt {border: none; }
+
+    /* place logo bottom-left */
+    img.logo {z-index:-5; height:8vh; width:8vw; position:absolute; bottom:2vh; left:2vw;}
+
+    /* content column
+     *
+     * RTD theme's default is 800px as max width for the content, but we have
+     * tables with tons of columns, which need the full width of the view-port.
+     */
+
+    .wy-nav-content{max-width: none; }
+
+    /* table:
+     *
+     *   - Sequences of whitespace should collapse into a single whitespace.
+     *   - make the overflow auto (scrollbar if needed)
+     *   - align caption "left" ("center" is unsuitable on vast tables)
+     */
+
+    .wy-table-responsive table td { white-space: normal; }
+    .wy-table-responsive { overflow: auto; }
+    .rst-content table.docutils caption { text-align: left; font-size: 100%; }
+
+    /* captions:
+     *
+     *   - captions should have 100% (not 85%) font size
+     *   - hide the permalink symbol as long as link is not hovered
+     */
+
+    caption, .wy-table caption, .rst-content table.field-list caption {
+        font-size: 100%;
+    }
+    caption a.headerlink { opacity: 0; }
+    caption a.headerlink:hover { opacity: 1; }
+
+    /* fix bottom margin of lists */
+
+    .rst-content .section ul li:last-child, .rst-content .section ul li p:last-child {
+          margin-bottom: 12px;
+    }
+
+    /* inline literal: drop the borderbox, padding and red color */
+
+    code, .rst-content tt, .rst-content code {
+        color: inherit;
+        border: none;
+        padding: unset;
+        background: inherit;
+        font-size: 85%;
+    }
+
+    .rst-content tt.literal,.rst-content tt.literal,.rst-content code.literal {
+        color: inherit;
+    }
+
+    /* admonitions with (rendered) reST markup examples (:class: rst-example)
+     *
+     * .. admonition:: title of the example
+     *     :class: rst-example
+     *     ....
+     */
+
+    div.rst-example > .admonition-title {
+        background-color: inherit;
+        color: inherit; }
+
+    div.rst-example > .admonition-title:before{
+        font-family: inherit;
+        font-style: italic;
+        content: "rendered reST markup:";}
+
+    div.rst-example {
+        padding-left: 12px; padding-right: 12px;
+        background-color: white;
+        border-left: 12px solid #e1e4e5;
+        transform: scale(0.7); }
+
+    div.rst-example:hover {
+        transform: scale(1);
+        background-color: inherit;
+        padding-left: inherit; padding-right: inherit;
+        border-left: inherit; }
+
+    div.rst-example:hover > .admonition-title {
+        display: none;
+    }
+}

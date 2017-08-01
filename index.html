@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>git2dot &mdash; git2dot 20170730 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="git2dot 20170730 documentation" href="#"/>
+        <link rel="next" title="git2dot package" href="git2dot-api/git2dot.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> git2dot
+          
+
+          
+            
+            <img src="_static/darmarIT_logo_128.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                20170730
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="git2dot-api/git2dot.html">git2dot package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">git2dot</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>git2dot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="git2dot">
+<h1>git2dot<a class="headerlink" href="#git2dot" title="Permalink to this headline">¶</a></h1>
+<p>Get nice <a class="reference external" href="http://www.graphviz.org">Graphviz</a> (<a class="reference external" href="http://www.graphviz.org/doc/info/lang.html">DOT</a>) graphs from git log.</p>
+<p>visit our slide-show at <a class="reference external" href="https://return42.github.io/git2dot/slides/index.html">https://return42.github.io/git2dot/slides/index.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">Copyright (C) 2017 Markus Heiser</td>
+</tr>
+<tr class="field-even field"><th class="field-name">e-mail:</th><td class="field-body"><a class="reference external" href="mailto:markus&#46;heiser&#37;&#52;&#48;darmarIT&#46;de">markus<span>&#46;</span>heiser<span>&#64;</span>darmarIT<span>&#46;</span>de</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">license:</th><td class="field-body">GPL Version 2, June 1991 see <a class="reference external" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/COPYING">Linux/COPYING</a> for details.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">docs:</th><td class="field-body"><a class="reference external" href="http://return42.github.io/git2dot">http://return42.github.io/git2dot</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">repository:</th><td class="field-body"><a class="reference external" href="https://github.com/return42/git2dot">github return42/git2dot</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="installing">
+<h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+<p>For a bleeding edge installation:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>pip install --user git+http://github.com/return42/git2dot.git
+</pre></div>
+</div>
+<p>If you are a developer fork/clone from github and run make:</p>
+<div class="highlight-sh"><div class="highlight"><pre><span></span>git clone https://github.com/return42/git2dot
+<span class="nb">cd</span> git2dot
+make install
+</pre></div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="https://graphviz.readthedocs.io/en/stable/index.html">Python graphviz</a> - Simple Python interface for Graphviz</li>
+<li><a class="reference external" href="http://www.graphviz.org">Graphviz</a> - Graph Visualization Software</li>
+<li><a class="reference external" href="http://www.graphviz.org/doc/info/lang.html">DOT</a>      - The DOT Language</li>
+</ul>
+</div>
+<div class="section" id="source-code-documentation">
+<h2>Source Code Documentation<a class="headerlink" href="#source-code-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="git2dot-api/git2dot.html">git2dot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="git2dot-api/git2dot.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="git2dot-api/git2dot.html#module-git2dot">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="git2dot-api/git2dot.html" class="btn btn-neutral float-right" title="git2dot package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 Markus Heiser.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'20170730',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

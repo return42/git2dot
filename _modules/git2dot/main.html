@@ -1,0 +1,304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>git2dot.main &mdash; git2dot 20170730 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="git2dot 20170730 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> git2dot
+          
+
+          
+            
+            <img src="../../_static/darmarIT_logo_128.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                20170730
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../git2dot-api/git2dot.html">git2dot package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">git2dot</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>git2dot.main</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for git2dot.main</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;git2dot command line</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">fspath</span> <span class="k">import</span> <span class="n">CLI</span>
+<span class="kn">from</span> <span class="nn">fspath</span> <span class="k">import</span> <span class="n">FSPath</span>
+<span class="kn">import</span> <span class="nn">git</span>
+<span class="kn">from</span> <span class="nn">.git2dot</span> <span class="k">import</span> <span class="n">GitDigraph</span>
+
+<div class="viewcode-block" id="find_git_root"><a class="viewcode-back" href="../../git2dot-api/git2dot.main.html#git2dot.main.find_git_root">[docs]</a><span class="k">def</span> <span class="nf">find_git_root</span><span class="p">(</span><span class="n">repo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;find &#39;.git&#39; folder of folder &#39;repo&#39;&quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="n">repo</span><span class="o">.</span><span class="n">DIRNAME</span> <span class="o">!=</span> <span class="n">repo</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">repo</span> <span class="o">/</span> <span class="s2">&quot;.git&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ISDIR</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">repo</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">DIRNAME</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">repo</span> <span class="o">/</span> <span class="s2">&quot;.git&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">ISDIR</span><span class="p">:</span>
+        <span class="n">repo</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">repo</span></div>
+
+<span class="k">def</span> <span class="nf">_cli_giant</span><span class="p">(</span><span class="n">cli</span><span class="p">):</span>
+    <span class="sa">u</span><span class="sd">&quot;&quot;&quot;draw graph for all git refs &amp; objs.</span>
+
+<span class="sd">    Generate DOT revision graph from the entire repository.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">       Depending on the repository, the graph may be gigantic</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">find_git_root</span><span class="p">(</span><span class="n">cli</span><span class="o">.</span><span class="n">repo</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">repo</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">cli</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is not a git repository&#39;</span> <span class="o">%</span> <span class="n">cli</span><span class="o">.</span><span class="n">repo</span><span class="p">)</span>
+
+    <span class="n">cli</span><span class="o">.</span><span class="n">OUT</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;using: </span><span class="si">%s</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">repo</span><span class="p">)</span>
+    <span class="n">repo</span> <span class="o">=</span> <span class="n">git</span><span class="o">.</span><span class="n">Repo</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span>
+    <span class="n">dot</span>  <span class="o">=</span> <span class="n">GitDigraph</span><span class="p">(</span><span class="n">comment</span>     <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">BASENAME</span>
+                      <span class="p">,</span> <span class="nb">format</span>    <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">SUFFIX</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                      <span class="p">,</span> <span class="n">engine</span>    <span class="o">=</span> <span class="s1">&#39;dot&#39;</span>
+                      <span class="p">,</span> <span class="n">encoding</span>  <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+                      <span class="p">)</span>
+    <span class="k">for</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
+        <span class="n">dot</span><span class="o">.</span><span class="n">addGitRef</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">traverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">dot</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+        <span class="n">filename</span>  <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">BASENAME</span><span class="o">.</span><span class="n">SKIPSUFFIX</span>
+        <span class="p">,</span> <span class="n">directory</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">DIRNAME</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">cli</span><span class="o">.</span><span class="n">show</span><span class="p">:</span>
+        <span class="n">cli</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">startFile</span><span class="p">()</span>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../git2dot-api/git2dot.main.html#git2dot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;main command-line&quot;&quot;&quot;</span>
+
+    <span class="n">cli</span> <span class="o">=</span> <span class="n">CLI</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">main</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+    <span class="n">giant</span> <span class="o">=</span> <span class="n">cli</span><span class="o">.</span><span class="n">addCMDParser</span><span class="p">(</span><span class="n">_cli_giant</span><span class="p">,</span> <span class="n">cmdName</span><span class="o">=</span><span class="s1">&#39;giant&#39;</span><span class="p">)</span>
+    <span class="n">giant</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--show&quot;</span>
+        <span class="p">,</span> <span class="n">action</span> <span class="o">=</span> <span class="s1">&#39;store_false&#39;</span>
+        <span class="p">,</span> <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;open graph with default application&quot;</span><span class="p">)</span>
+    <span class="n">giant</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;out&quot;</span>
+        <span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">FSPath</span>
+        <span class="p">,</span> <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;file name of the output&quot;</span><span class="p">)</span>
+    <span class="n">giant</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;repo&quot;</span>
+        <span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">FSPath</span>
+        <span class="p">,</span> <span class="n">default</span> <span class="o">=</span> <span class="n">FSPath</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="p">,</span> <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;path name of the git repository&quot;</span><span class="p">)</span>
+    <span class="n">cli</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 Markus Heiser.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'20170730',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

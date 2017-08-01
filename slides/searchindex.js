@@ -1,0 +1,1 @@
+Search.setIndex({docnames:["index"],envversion:53,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{For:0,bleed:0,clone:0,com:0,develop:0,dot:0,edg:0,fork:0,from:0,get:0,git:0,github:0,graph:0,graphviz:0,instal:0,log:0,make:0,nice:0,return42:0,run:0,soon:0,you:0},titles:["git2dot package"],titleterms:{git2dot:0,packag:0}})

@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>git2dot.git2dot module &mdash; git2dot 20170730 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="git2dot 20170730 documentation" href="../index.html"/>
+        <link rel="up" title="git2dot package" href="git2dot.html"/>
+        <link rel="next" title="git2dot.main module" href="git2dot.main.html"/>
+        <link rel="prev" title="git2dot.config module" href="git2dot.config.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> git2dot
+          
+
+          
+            
+            <img src="../_static/darmarIT_logo_128.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                20170730
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="git2dot.html">git2dot package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="git2dot.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="git2dot.config.html">git2dot.config module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">git2dot.git2dot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="git2dot.main.html">git2dot.main module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="git2dot.html#module-git2dot">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">git2dot</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="git2dot.html">git2dot package</a> &raquo;</li>
+        
+      <li>git2dot.git2dot module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/git2dot-api/git2dot.git2dot.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-git2dot.git2dot">
+<span id="git2dot-git2dot-module"></span><h1>git2dot.git2dot module<a class="headerlink" href="#module-git2dot.git2dot" title="Permalink to this headline">¶</a></h1>
+<p>git2dot library</p>
+<dl class="class">
+<dt id="git2dot.git2dot.GitDigraph">
+<em class="property">class </em><code class="descclassname">git2dot.git2dot.</code><code class="descname">GitDigraph</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">graphviz.dot.Digraph</span></code></p>
+<p>Directed graph source code in the DOT language.</p>
+<p>Eats git objs (self.addGitObj), git refs (self.addGitRef) and
+inserts edges (addGitEdge).</p>
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.addGitEdge">
+<code class="descname">addGitEdge</code><span class="sig-paren">(</span><em>parent</em>, <em>child</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.addGitEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.addGitEdge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a ‘parent’ –&gt; ‘child’ edge.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parent</strong> (<em>str</em>) – label (ID) of the parent</li>
+<li><strong>child</strong> (<em>str</em>) – label (ID) of the parent</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If the ‘parent’ –&gt; ‘child’ edge is already added, nothing happens.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.addGitObj">
+<code class="descname">addGitObj</code><span class="sig-paren">(</span><em>gitObj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.addGitObj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.addGitObj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a git-obj node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>gitObj</strong> (<em>git.objects.base.Object</em>) – git-object</li>
+<li><strong>tarverse</strong> (<em>bool</em>) – if <code class="docutils literal"><span class="pre">True</span></code> do traverse (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The object (<em>node</em>) and all it’s edges to parents will be added.  If the
+git-obj is already added, nothing happens. The node ID is taken from the
+<em>hexsha</em> of the git-obj (<a class="reference internal" href="#git2dot.git2dot.GitFormatter.getID" title="git2dot.git2dot.GitFormatter.getID"><code class="xref py py-meth docutils literal"><span class="pre">GitFormatter.getID()</span></code></a>)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.addGitRef">
+<code class="descname">addGitRef</code><span class="sig-paren">(</span><em>gitRef</em>, <em>traverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.addGitRef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.addGitRef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a git-ref node to the graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>gitRef</strong> (<em>git.refs.reference.Reference</em>) – git-ref</li>
+<li><strong>tarverse</strong> (<em>bool</em>) – if <code class="docutils literal"><span class="pre">True</span></code> do traverse (default: <code class="docutils literal"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The git-ref (<em>node</em>), the object (<em>node</em>) it points to and the <em>edge</em>
+will be added. If the git-ref is already added, nothing happens.  The
+node ID is the <em>path</em> (e.g. <code class="docutils literal"><span class="pre">refs/heads/master</span></code>) of the git-ref
+(<a class="reference internal" href="#git2dot.git2dot.GitFormatter.getID" title="git2dot.git2dot.GitFormatter.getID"><code class="xref py py-meth docutils literal"><span class="pre">GitFormatter.getID()</span></code></a>).</p>
+<p>The bool argument ‘traverse’ can be used to control whether a traversal
+should be carried out.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.dumpGraph">
+<code class="descname">dumpGraph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.dumpGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.dumpGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>dump all git nodes &amp; edges</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.pipe">
+<code class="descname">pipe</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.pipe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.pipe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitDigraph.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitDigraph.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitDigraph.save" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="git2dot.git2dot.GitFormatter">
+<em class="property">class </em><code class="descclassname">git2dot.git2dot.</code><code class="descname">GitFormatter</code><span class="sig-paren">(</span><em>git_item</em>, <em>styles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Formating git/graphviz nodes &amp; edges</p>
+<dl class="attribute">
+<dt id="git2dot.git2dot.GitFormatter.DATE_TIME_FORMAT">
+<code class="descname">DATE_TIME_FORMAT</code><em class="property"> = '%Y-%m-%d %H:%M:%S'</em><a class="headerlink" href="#git2dot.git2dot.GitFormatter.DATE_TIME_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="git2dot.git2dot.GitFormatter.LABELS">
+<code class="descname">LABELS</code><em class="property"> = {'branch': '&lt;&lt;B&gt;branch&lt;BR/&gt;%(name)s&lt;/B&gt;&gt;', 'ref': '&lt;%(path)s&gt;', 'commit': '&lt;%(hexsha:short)s:&lt;B&gt;%(message:short)s&lt;/B&gt;&lt;BR/&gt; %(author.name)s %(committed_date)s&gt;', 'head': '&lt;&lt;B&gt;HEAD&lt;BR/&gt;%(name)s&lt;/B&gt;&gt;'}</em><a class="headerlink" href="#git2dot.git2dot.GitFormatter.LABELS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="git2dot.git2dot.GitFormatter.NODE_ATTRS">
+<code class="descname">NODE_ATTRS</code><em class="property"> = {'branch': {'fillcolor': '%(BRANCH_COLOR)s'}, 'ref': {'fillcolor': '%(REF_COLOR)s'}, 'commit': {}, 'head': {'fillcolor': '%(HEAD_COLOR)s'}}</em><a class="headerlink" href="#git2dot.git2dot.GitFormatter.NODE_ATTRS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="git2dot.git2dot.GitFormatter.SHA_SHORT_LENGTH">
+<code class="descname">SHA_SHORT_LENGTH</code><em class="property"> = 6</em><a class="headerlink" href="#git2dot.git2dot.GitFormatter.SHA_SHORT_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitFormatter.dumpNode">
+<code class="descname">dumpNode</code><span class="sig-paren">(</span><em>graph</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter.dumpNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter.dumpNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate DOT node</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="git2dot.git2dot.GitFormatter.escape">
+<em class="property">classmethod </em><code class="descname">escape</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter.escape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter.escape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace special characters “&amp;”, “&lt;” and “&gt;” to HTML-safe sequences.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitFormatter.getAttrs">
+<code class="descname">getAttrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter.getAttrs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter.getAttrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>get DOT attributes of <em>this</em> node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitFormatter.getID">
+<code class="descname">getID</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter.getID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter.getID" title="Permalink to this definition">¶</a></dt>
+<dd><p>get ID of <em>this</em> DOT node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="git2dot.git2dot.GitFormatter.getLabel">
+<code class="descname">getLabel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/git2dot/git2dot.html#GitFormatter.getLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#git2dot.git2dot.GitFormatter.getLabel" title="Permalink to this definition">¶</a></dt>
+<dd><p>get label of <em>this</em> DOT node</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="git2dot.git2dot.GitFormatter.type">
+<code class="descname">type</code><a class="headerlink" href="#git2dot.git2dot.GitFormatter.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>type of <em>this</em> node (branch, head, commit, ..)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="git2dot.main.html" class="btn btn-neutral float-right" title="git2dot.main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="git2dot.config.html" class="btn btn-neutral" title="git2dot.config module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 Markus Heiser.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'20170730',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

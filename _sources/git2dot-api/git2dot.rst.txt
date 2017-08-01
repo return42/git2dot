@@ -1,0 +1,19 @@
+git2dot package
+===============
+
+Submodules
+----------
+
+.. toctree::
+
+   git2dot.config
+   git2dot.git2dot
+   git2dot.main
+
+Module contents
+---------------
+
+.. automodule:: git2dot
+    :members:
+    :undoc-members:
+    :show-inheritance:

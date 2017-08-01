@@ -1,0 +1,462 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>git2dot.git2dot &mdash; git2dot 20170730 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="git2dot 20170730 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> git2dot
+          
+
+          
+            
+            <img src="../../_static/darmarIT_logo_128.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                20170730
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../git2dot-api/git2dot.html">git2dot package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">git2dot</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>git2dot.git2dot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for git2dot.git2dot</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;git2dot library&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=bad-continuation,invalid-name</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">git</span>
+<span class="kn">from</span> <span class="nn">graphviz</span> <span class="k">import</span> <span class="n">Digraph</span>
+
+<div class="viewcode-block" id="GitFormatter"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter">[docs]</a><span class="k">class</span> <span class="nc">GitFormatter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Formating git/graphviz nodes &amp; edges&quot;&quot;&quot;</span>
+
+    <span class="n">SHA_SHORT_LENGTH</span>  <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">DATE_TIME_FORMAT</span>  <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span>
+
+    <span class="c1"># LABELS will be evaluated in the context of self (see cls.__getitem__)</span>
+    <span class="n">LABELS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">commit</span>   <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;%(hexsha:short)s:&lt;B&gt;%(message:short)s&lt;/B&gt;&lt;BR/&gt; %(author.name)s </span><span class="si">%(committed_date)s</span><span class="s1">&gt;&#39;</span>
+        <span class="p">,</span> <span class="n">ref</span>    <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;</span><span class="si">%(path)s</span><span class="s1">&gt;&#39;</span>
+        <span class="p">,</span> <span class="n">head</span>   <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;&lt;B&gt;HEAD&lt;BR/&gt;</span><span class="si">%(name)s</span><span class="s1">&lt;/B&gt;&gt;&#39;</span>
+        <span class="p">,</span> <span class="n">branch</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;&lt;&lt;B&gt;branch&lt;BR/&gt;</span><span class="si">%(name)s</span><span class="s1">&lt;/B&gt;&gt;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># NODE_ATTRS&#39;s values will be evaluated in the context of</span>
+    <span class="c1"># self.styles.base_style (see cls.getAttrs)</span>
+    <span class="n">NODE_ATTRS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">commit</span>   <span class="o">=</span> <span class="p">{}</span>
+        <span class="p">,</span> <span class="n">ref</span>    <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%(REF_COLOR)s</span><span class="s1">&#39;</span><span class="p">}</span>
+        <span class="p">,</span> <span class="n">head</span>   <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%(HEAD_COLOR)s</span><span class="s1">&#39;</span><span class="p">}</span>
+        <span class="p">,</span> <span class="n">branch</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fillcolor&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">%(BRANCH_COLOR)s</span><span class="s1">&#39;</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">git_item</span><span class="p">,</span> <span class="n">styles</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span> <span class="o">=</span> <span class="n">git_item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git</span>      <span class="o">=</span> <span class="n">git_item</span><span class="o">.</span><span class="n">repo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styles</span>   <span class="o">=</span> <span class="n">styles</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="GitFormatter.escape"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter.escape">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">escape</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace special characters &quot;&amp;&quot;, &quot;&lt;&quot; and &quot;&gt;&quot; to HTML-safe sequences.&quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;amp;&quot;</span><span class="p">)</span> <span class="c1"># Must be done first!</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;lt;&quot;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;gt;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;type of *this* node (branch, head, commit, ..)&quot;&quot;&quot;</span>
+        <span class="n">retVal</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="p">,</span> <span class="n">git</span><span class="o">.</span><span class="n">refs</span><span class="o">.</span><span class="n">reference</span><span class="o">.</span><span class="n">Reference</span><span class="p">):</span>
+            <span class="n">retVal</span> <span class="o">=</span> <span class="s1">&#39;ref&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">object</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="o">.</span><span class="n">object</span><span class="p">:</span>
+                <span class="n">retVal</span> <span class="o">=</span> <span class="s1">&#39;head&#39;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">branches</span><span class="p">:</span>
+                <span class="n">retVal</span> <span class="o">=</span> <span class="s1">&#39;branch&#39;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="p">,</span> <span class="n">git</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">Object</span><span class="p">):</span>
+            <span class="n">retVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">return</span> <span class="n">retVal</span>
+
+<div class="viewcode-block" id="GitFormatter.dumpNode"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter.dumpNode">[docs]</a>    <span class="k">def</span> <span class="nf">dumpNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;generate DOT node&quot;&quot;&quot;</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getID</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getLabel</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAttrs</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="GitFormatter.getID"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter.getID">[docs]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get ID of *this* DOT node&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ref&#39;</span><span class="p">,</span><span class="s1">&#39;head&#39;</span><span class="p">,</span> <span class="s1">&#39;branch&#39;</span><span class="p">):</span>
+            <span class="n">retVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="o">.</span><span class="n">path</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">retVal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span><span class="o">.</span><span class="n">hexsha</span>
+        <span class="k">return</span> <span class="n">retVal</span></div>
+
+<div class="viewcode-block" id="GitFormatter.getLabel"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter.getLabel">[docs]</a>    <span class="k">def</span> <span class="nf">getLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get label of *this* DOT node&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">LABELS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">]</span> <span class="o">%</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="GitFormatter.getAttrs"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitFormatter.getAttrs">[docs]</a>    <span class="k">def</span> <span class="nf">getAttrs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get DOT attributes of *this* node&quot;&quot;&quot;</span>
+        <span class="n">retVal</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NODE_ATTRS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">retVal</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="o">.</span><span class="n">base_style</span>
+        <span class="k">return</span> <span class="n">retVal</span></div>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="n">attr</span><span class="p">,</span> <span class="n">modifier</span> <span class="o">=</span> <span class="p">(</span><span class="n">attr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">])[:</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_item</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="n">retVal</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;committed_date&#39;</span><span class="p">,</span> <span class="p">):</span>
+            <span class="n">retVal</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">DATE_TIME_FORMAT</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">retVal</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">modifier</span> <span class="o">==</span> <span class="s1">&#39;short&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;hexsha&#39;</span><span class="p">,</span> <span class="p">):</span>
+                <span class="n">retVal</span> <span class="o">=</span> <span class="n">retVal</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">SHA_SHORT_LENGTH</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="p">):</span>
+                <span class="n">retVal</span> <span class="o">=</span> <span class="n">retVal</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">retVal</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GitDigraph"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph">[docs]</a><span class="k">class</span> <span class="nc">GitDigraph</span><span class="p">(</span><span class="n">Digraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Directed graph source code in the DOT language.</span>
+
+<span class="sd">    Eats git objs (self.addGitObj), git refs (self.addGitRef) and</span>
+<span class="sd">    inserts edges (addGitEdge).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GitDigraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_objs</span>   <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_refs</span>   <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_edges</span>  <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_rank</span>   <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="c1"># ToDo: facilitate for customizing</span>
+        <span class="kn">from</span> <span class="nn">.config</span> <span class="k">import</span> <span class="n">buildStyles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmtClass</span>   <span class="o">=</span> <span class="n">GitFormatter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">styleFunc</span>  <span class="o">=</span> <span class="n">buildStyles</span>
+
+<div class="viewcode-block" id="GitDigraph.addGitRef"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.addGitRef">[docs]</a>    <span class="k">def</span> <span class="nf">addGitRef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gitRef</span><span class="p">,</span> <span class="n">traverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a git-ref node to the graph</span>
+
+<span class="sd">        :param git.refs.reference.Reference gitRef: git-ref</span>
+<span class="sd">        :param bool tarverse: if ``True`` do traverse (default: ``False``)</span>
+
+<span class="sd">        The git-ref (*node*), the object (*node*) it points to and the *edge*</span>
+<span class="sd">        will be added. If the git-ref is already added, nothing happens.  The</span>
+<span class="sd">        node ID is the *path* (e.g. ``refs/heads/master``) of the git-ref</span>
+<span class="sd">        (:py:meth:`GitFormatter.getID`).</span>
+
+<span class="sd">        The bool argument &#39;traverse&#39; can be used to control whether a traversal</span>
+<span class="sd">        should be carried out.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_refs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gitRef</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">git_refs</span><span class="p">[</span><span class="n">gitRef</span><span class="o">.</span><span class="n">path</span><span class="p">]</span> <span class="o">=</span> <span class="n">gitRef</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addGitObj</span><span class="p">(</span><span class="n">gitRef</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">addGitEdge</span><span class="p">(</span><span class="n">gitRef</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">hexsha</span><span class="p">,</span> <span class="n">gitRef</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="s1">&#39;back&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">traverse</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">gitRef</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">traverse</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">addGitObj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GitDigraph.addGitObj"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.addGitObj">[docs]</a>    <span class="k">def</span> <span class="nf">addGitObj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gitObj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a git-obj node.</span>
+
+<span class="sd">        :param git.objects.base.Object gitObj: git-object</span>
+<span class="sd">        :param bool tarverse: if ``True`` do traverse (default: ``False``)</span>
+
+<span class="sd">        The object (*node*) and all it&#39;s edges to parents will be added.  If the</span>
+<span class="sd">        git-obj is already added, nothing happens. The node ID is taken from the</span>
+<span class="sd">        *hexsha* of the git-obj (:py:meth:`GitFormatter.getID`)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_objs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gitObj</span><span class="o">.</span><span class="n">hexsha</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">git_objs</span><span class="p">[</span><span class="n">gitObj</span><span class="o">.</span><span class="n">hexsha</span><span class="p">]</span> <span class="o">=</span> <span class="n">gitObj</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gitObj</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">addGitEdge</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">hexsha</span><span class="p">,</span> <span class="n">gitObj</span><span class="o">.</span><span class="n">hexsha</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GitDigraph.addGitEdge"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.addGitEdge">[docs]</a>    <span class="k">def</span> <span class="nf">addGitEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a &#39;parent&#39; --&gt; &#39;child&#39; edge.</span>
+
+<span class="sd">        :param str parent: label (ID) of the parent</span>
+<span class="sd">        :param str child: label (ID) of the parent</span>
+
+<span class="sd">        If the &#39;parent&#39; --&gt; &#39;child&#39; edge is already added, nothing happens.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_edges</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">git_edges</span><span class="p">[(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">)]</span> <span class="o">=</span> <span class="n">kwargs</span></div>
+
+<div class="viewcode-block" id="GitDigraph.save"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dumpGraph</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">GitDigraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GitDigraph.pipe"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.pipe">[docs]</a>    <span class="k">def</span> <span class="nf">pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> <span class="c1"># pylint: disable=arguments-differ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dumpGraph</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">GitDigraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GitDigraph.dumpGraph"><a class="viewcode-back" href="../../git2dot-api/git2dot.git2dot.html#git2dot.git2dot.GitDigraph.dumpGraph">[docs]</a>    <span class="k">def</span> <span class="nf">dumpGraph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;dump all git nodes &amp; edges</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">styles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">styleFunc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph_attr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">styles</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_attr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">styles</span><span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_attr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">styles</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">gitObj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_objs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmtClass</span><span class="p">(</span><span class="n">gitObj</span><span class="p">,</span> <span class="n">styles</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">dumpNode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_objs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">gitRef</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_refs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fmtClass</span><span class="p">(</span><span class="n">gitRef</span><span class="p">,</span> <span class="n">styles</span><span class="p">)</span>
+            <span class="n">ref</span><span class="o">.</span><span class="n">dumpNode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ref_rank</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">getID</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_refs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="c1"># rank all refs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;{rank = same; &quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;; &quot;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_rank</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&quot;;}&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ref_rank</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">),</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">git_edges</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edge</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">git_edges</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span></div></div>
+
+
+
+    <span class="c1"># def node(self, name, label=None, _attributes=None, **attrs):</span>
+    <span class="c1">#     &quot;&quot;&quot;Create a node.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         name: Unique identifier for the node inside the source.</span>
+    <span class="c1">#         label: Caption to be displayed (defaults to the node name).</span>
+    <span class="c1">#         attrs: Any additional node attributes (must be strings).</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     name = self._quote(name)</span>
+    <span class="c1">#     attr_list = self._attr_list(label, attrs, _attributes)</span>
+    <span class="c1">#     line = self._node % (name, attr_list)</span>
+    <span class="c1">#     self.body.append(line)</span>
+
+    <span class="c1"># def edge(self, tail_name, head_name, label=None, _attributes=None, **attrs):</span>
+    <span class="c1">#     &quot;&quot;&quot;Create an edge between two nodes.</span>
+
+    <span class="c1">#     Args:</span>
+    <span class="c1">#         tail_name: Start node identifier.</span>
+    <span class="c1">#         head_name: End node identifier.</span>
+    <span class="c1">#         label: Caption to be displayed near the edge.</span>
+    <span class="c1">#         attrs: Any additional edge attributes (must be strings).</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017 Markus Heiser.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'20170730',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

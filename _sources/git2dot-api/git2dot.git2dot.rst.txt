@@ -1,0 +1,7 @@
+git2dot\.git2dot module
+=======================
+
+.. automodule:: git2dot.git2dot
+    :members:
+    :undoc-members:
+    :show-inheritance:
