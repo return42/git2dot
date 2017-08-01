@@ -49,7 +49,39 @@ git2dot package
       cd git2dot
       make install
 
+   A Graphviz_ installation is required. E.g. on Deban/Ubuntu
 
+   .. rv_code::
+      :class: shell
+
+      $ sudo apt-get install graphviz
+
+      
+.. revealjs:: giant by example
+   :title-heading: h2
+
+   e.g. clone my ``git-teaching``
+
+   .. rv_code::
+      :class: shell
+
+      $ git clone https://github.com/return42/git-teaching.git
+      $ cd git-teaching
+
+   create SVG, PNG, PDF ... graph
+
+   .. rv_code::
+      :class: shell
+
+      $ git2dot giant git-teaching.svg .
+
+.. revealjs:: giant by example
+   :title-heading: h2
+
+   .. figure:: git-teaching.svg
+
+
+      
 .. revealjs:: to be continued
    :title-heading: h3
 

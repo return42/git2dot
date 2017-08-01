@@ -56,10 +56,28 @@
 <pre class="shell">
 <code data-trim contenteditable>$ pip install --user git+http://github.com/return42/git2dot.git</code></pre>
 <p>If you are a developer fork/clone from github and run make:</p>
-<pre class="shell last">
+<pre class="shell">
 <code data-trim contenteditable>git clone https://github.com/return42/git2dot
 cd git2dot
 make install</code></pre>
+<p>A <a class="reference external" href="http://www.graphviz.org">Graphviz</a> installation is required. E.g. on Deban/Ubuntu</p>
+<pre class="shell last">
+<code data-trim contenteditable>$ sudo apt-get install graphviz</code></pre>
+</section>
+<section>
+<h2>giant by example</h2>
+<p class="first">e.g. clone my <code class="docutils literal"><span class="pre">git-teaching</span></code></p>
+<pre class="shell">
+<code data-trim contenteditable>$ git clone https://github.com/return42/git-teaching.git
+$ cd git-teaching</code></pre>
+<p>create SVG, PNG, PDF … graph</p>
+<pre class="shell last">
+<code data-trim contenteditable>$ git2dot giant git-teaching.svg .</code></pre>
+</section>
+<section>
+<h2>giant by example</h2>
+<div class="first last figure">
+<img alt="_images/git-teaching.svg" src="_images/git-teaching.svg" /></div>
 </section>
 <section>
 <h3>to be continued</h3>
